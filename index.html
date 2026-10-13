@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tai chi pro Olgu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --aegean:#0D5EAF; --deep:#0A4477; --sky:#EAF3FB; --ink:#2C3440; --soft:#5B6672;
+  --paper:#FCFAF4; --card:#FFFFFF; --line:#C9DBEE;
+  --terra:#C96F4A; --terra-d:#A85535; --gold:#E9B44C; --olive:#6B7F3E; --olive-bg:#EFF3E4;
+  --fs:19px;
+}
+
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --aegean:#0D5EAF; --deep:#0A4477; --sky:#EAF3FB; --ink:#2C3440; --soft:#5B6672;
+    --paper:#FCFAF4; --card:#FFFFFF; --line:#C9DBEE;
+    --terra:#C96F4A; --terra-d:#A85535; --gold:#E9B44C; --olive:#6B7F3E; --olive-bg:#EFF3E4;
+  }
+}
+:root[data-theme="dark"]{
+  --aegean:#0D5EAF; --deep:#0A4477; --sky:#EAF3FB; --ink:#2C3440; --soft:#5B6672;
+  --paper:#FCFAF4; --card:#FFFFFF; --line:#C9DBEE;
+  --terra:#C96F4A; --terra-d:#A85535; --gold:#E9B44C; --olive:#6B7F3E; --olive-bg:#EFF3E4;
+}
+html{font-size:var(--fs);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:"Source Sans 3","Segoe UI",Arial,sans-serif;color:var(--ink);background:var(--paper);line-height:1.6;}
+h1,h2,h3{font-family:"Lora",Georgia,serif;color:var(--aegean);line-height:1.2;}
+.wrap{max-width:760px;margin:0 auto;padding:0 1.1rem 5rem;position:relative;z-index:2;}
+
+/* meandr a vlnky */
+.meander{display:block;width:100%;height:34px;color:var(--aegean);}
+.waves-bottom{position:fixed;left:0;bottom:0;width:100%;height:44px;z-index:0;pointer-events:none;color:var(--aegean);}
+@media print{.waves-bottom{display:none;}}
+
+/* hlavička */
+header{position:relative;background:linear-gradient(180deg,#F2F7FC 0%,var(--paper) 100%);
+  border-bottom:3px solid var(--aegean);overflow:hidden;}
+.head-inner{max-width:760px;margin:0 auto;padding:.9rem 1.1rem 2rem;position:relative;z-index:2;text-align:center;}
+.kicker{font-weight:600;color:var(--terra);letter-spacing:.04em;margin-bottom:.4rem;}
+h1{font-size:clamp(2.1rem,6vw,3.1rem);margin-bottom:.35rem;}
+.subtitle{font-family:"Lora",Georgia,serif;font-size:clamp(1.25rem,3.5vw,1.6rem);
+  color:var(--deep);font-weight:600;margin-bottom:.9rem;}
+.lead{max-width:33em;margin:0 auto 1.1rem;font-size:1.05rem;}
+.lead strong{color:var(--aegean);}
+.scene-box{max-width:640px;margin:0 auto;border:2px solid var(--aegean);border-radius:12px;overflow:hidden;}
+.scene-svg{display:block;width:100%;height:auto;}
+.olive-side{position:absolute;top:52px;width:150px;color:var(--olive);pointer-events:none;}
+.olive-l{left:-14px;} .olive-r{right:-14px;transform:scaleX(-1);}
+@media(max-width:640px){.olive-side{width:96px;top:44px;}}
+
+.font-tools{display:flex;gap:.4rem;justify-content:flex-end;max-width:760px;margin:0 auto;padding:.7rem 1.1rem 0;position:relative;z-index:5;}
+.font-tools button{font-family:inherit;font-weight:700;border:2px solid var(--aegean);background:#fff;
+  color:var(--aegean);border-radius:10px;min-width:3rem;min-height:2.6rem;font-size:1rem;cursor:pointer;}
+.font-tools button:hover{background:var(--sky);}
+.font-tools button:focus-visible{outline:3px solid var(--gold);outline-offset:2px;}
+
+section{margin-top:2.6rem;position:relative;z-index:2;}
+h2{font-size:clamp(1.5rem,4vw,1.95rem);margin-bottom:.9rem;padding-bottom:.35rem;border-bottom:2px solid var(--aegean);}
+
+.osa{display:grid;gap:.75rem;}
+.osa .stupen{background:var(--card);border:1.5px solid var(--line);border-left:6px solid var(--terra);
+  border-radius:12px;padding:.85rem 1rem;}
+.osa .stupen b{color:var(--aegean);}
+.osa .stupen:nth-child(2){border-left-color:var(--gold);}
+.osa .stupen:nth-child(3){border-left-color:var(--olive);}
+
+.benefity{list-style:none;display:grid;gap:.55rem;}
+.benefity li{padding-left:2rem;position:relative;}
+.benefity li::before{content:"✦";position:absolute;left:.25rem;color:var(--gold);font-size:1.05rem;}
+
+.pozice{background:var(--sky);border-radius:14px;padding:1.1rem 1.2rem;border:1.5px solid var(--line);}
+.pozice ul{list-style:none;display:grid;gap:.45rem;margin-top:.5rem;}
+.pozice li{padding-left:1.7rem;position:relative;}
+.pozice li::before{content:"✓";position:absolute;left:.15rem;color:var(--olive);font-weight:700;}
+
+.panel{background:var(--card);border:2px solid var(--aegean);border-radius:16px;
+  padding:1.1rem 1.2rem;display:flex;flex-wrap:wrap;gap:.9rem;align-items:center;justify-content:space-between;}
+.progress{font-size:1.15rem;font-weight:600;}
+.progress b{color:var(--aegean);font-size:1.35rem;}
+.btn{font-family:inherit;font-size:1.08rem;font-weight:700;cursor:pointer;
+  border-radius:12px;padding:.75rem 1.25rem;min-height:3.2rem;border:2px solid transparent;}
+.btn:focus-visible{outline:3px solid var(--gold);outline-offset:2px;}
+.btn-primary{background:var(--aegean);color:#fff;}
+.btn-primary:hover{background:var(--deep);}
+.btn-ghost{background:#fff;color:var(--aegean);border-color:var(--aegean);}
+.btn-ghost:hover{background:var(--sky);}
+.hotovo-banner{display:none;margin-top:1rem;background:var(--olive-bg);border:2px solid var(--olive);
+  color:#44551F;border-radius:12px;padding:1rem 1.2rem;font-weight:600;font-size:1.1rem;text-align:center;}
+.hotovo-banner.show{display:block;}
+
+.cvik{background:var(--card);border:1.5px solid var(--line);border-radius:16px;
+  padding:1.15rem 1.2rem 1.05rem;margin-top:1.1rem;position:relative;transition:box-shadow .2s,border-color .2s;}
+.cvik.active{border-color:var(--gold);box-shadow:0 0 0 4px rgba(233,180,76,.3);}
+.cvik.done{border-color:var(--olive);background:var(--olive-bg);}
+.cvik-head{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;margin-bottom:.55rem;}
+.cvik-body{display:flex;gap:1.1rem;align-items:flex-start;flex-wrap:wrap;}
+.cvik-text{flex:1 1 16rem;min-width:0;}
+.cvik-fig{flex:0 0 auto;width:13rem;max-width:72vw;margin:0 auto;}
+.cvik-fig svg{display:block;width:100%;height:auto;}
+.badge{flex:none;width:2.5rem;height:2.5rem;border-radius:50%;background:var(--aegean);color:#fff;
+  font-weight:700;font-size:1.2rem;display:flex;align-items:center;justify-content:center;}
+.cvik.done .badge{background:var(--olive);}
+.cvik h3{font-size:1.28rem;flex:1;min-width:12ch;}
+.cas-stitek{color:var(--soft);font-weight:600;white-space:nowrap;}
+.cvik .postup{margin-bottom:.5rem;}
+.cvik .dech{color:var(--deep);margin-bottom:.5rem;}
+.cvik .pozor{background:#FDF4E3;border-left:5px solid var(--gold);padding:.5rem .8rem;
+  border-radius:0 10px 10px 0;margin-bottom:.6rem;}
+.timer-row{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;margin-top:.6rem;}
+.countdown{font-family:"Lora",Georgia,serif;font-weight:700;font-size:1.7rem;color:var(--aegean);
+  min-width:4.2ch;text-align:center;font-variant-numeric:tabular-nums;}
+.btn-timer{background:var(--terra);color:#fff;}
+.btn-timer:hover{background:var(--terra-d);}
+.btn-timer[data-state="running"]{background:var(--gold);color:var(--ink);}
+.btn-check{background:#fff;color:var(--olive);border-color:var(--olive);}
+.cvik.done .btn-check{background:var(--olive);color:#fff;}
+
+table{width:100%;border-collapse:collapse;background:var(--card);border-radius:12px;overflow:hidden;
+  border:1.5px solid var(--line);}
+th,td{padding:.65rem .8rem;text-align:left;border-bottom:1px solid var(--line);}
+th{background:var(--aegean);color:#fff;font-weight:600;}
+tr:last-child td{border-bottom:none;font-weight:700;color:var(--aegean);}
+td.cislo{width:3rem;text-align:center;color:var(--soft);}
+td.cas{white-space:nowrap;text-align:right;}
+.plan-tip{margin-top:.8rem;background:var(--sky);border-radius:12px;padding:.8rem 1rem;}
+
+.zasady{list-style:none;display:grid;gap:.55rem;}
+.zasady li{padding-left:2rem;position:relative;}
+.zasady li::before{content:"•";position:absolute;left:.5rem;color:var(--aegean);font-size:1.4rem;line-height:1.1;}
+.disclaimer{margin-top:1rem;color:var(--soft);font-size:.95rem;}
+
+.zaver{background:var(--sky);border:2px solid var(--terra);border-radius:16px;
+  padding:1.4rem 1.4rem;text-align:center;position:relative;}
+.zaver p{max-width:36em;margin:0 auto .6rem;}
+.zaver .podpis{font-family:"Lora",Georgia,serif;color:var(--aegean);font-weight:700;font-size:1.15rem;}
+.boug{position:absolute;width:64px;color:#C94F7C;pointer-events:none;}
+.boug-l{left:-10px;bottom:-14px;} .boug-r{right:-10px;bottom:-14px;transform:scaleX(-1);}
+
+.print-row{margin-top:2rem;text-align:center;}
+@media print{
+  .font-tools,.timer-row,.panel,.print-row,.meander,.olive-side{display:none!important;}
+  body{background:#fff;}
+  .cvik{break-inside:avoid;}
+}
+
+
+/* ---------- YouTube ukázky ---------- */
+.yt-box{margin-top:.9rem;}
+.yt-facade{position:relative;display:block;width:100%;aspect-ratio:16/9;border:0;padding:0;
+  border-radius:12px;overflow:hidden;cursor:pointer;
+  background:linear-gradient(135deg,var(--deep) 0%,var(--aegean) 55%,#2E77C4 100%);}
+.yt-facade .yt-play{position:absolute;inset:0;margin:auto;width:4.4rem;height:3.1rem;
+  background:var(--aegean);border-radius:14px;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 10px rgba(0,0,0,.35);}
+.yt-facade .yt-play::after{content:"";border-style:solid;border-width:.65rem 0 .65rem 1.15rem;
+  border-color:transparent transparent transparent #fff;margin-left:.2rem;}
+.yt-facade:hover .yt-play{background:var(--deep);}
+.yt-facade:focus-visible{outline:3px solid var(--gold);outline-offset:2px;}
+.yt-facade .yt-badge{position:absolute;left:.6rem;top:.6rem;background:rgba(255,255,255,.92);
+  color:var(--deep);font-weight:600;font-size:.85rem;padding:.15rem .55rem;border-radius:8px;}
+.yt-box iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:12px;display:block;}
+.yt-src{color:var(--soft);font-size:.9rem;margin-top:.35rem;}
+@media print{.yt-box{display:none!important;}}
+
+/* ---------- animace figur ---------- */
+@keyframes a-arms{0%,100%{transform:rotate(6deg)}50%{transform:rotate(-14deg)}}
+.a-arms{transform-box:view-box;transform-origin:98px 96px;animation:a-arms 5s ease-in-out infinite}
+@keyframes a-twist{0%,100%{transform:rotate(5deg)}50%{transform:rotate(-5deg)}}
+.a-twist{transform-box:view-box;transform-origin:100px 170px;animation:a-twist 6s ease-in-out infinite}
+@keyframes a-lean{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg)}}
+.a-lean{transform-box:view-box;transform-origin:100px 172px;animation:a-lean 6s ease-in-out infinite}
+@keyframes a-head{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+.a-head{transform-box:view-box;transform-origin:100px 88px;animation:a-head 5s ease-in-out infinite}
+@keyframes a-breath{0%,100%{opacity:.15}50%{opacity:1}}
+.a-b1{animation:a-breath 4s ease-in-out infinite}
+.a-b2{animation:a-breath 4s ease-in-out infinite;animation-delay:.6s}
+@keyframes a-dot{0%,70%,100%{opacity:.25}15%{opacity:1}}
+.a-d1{animation:a-dot 3s infinite}
+.a-d2{animation:a-dot 3s infinite .5s}
+.a-d3{animation:a-dot 3s infinite 1s}
+@keyframes a-fadep{0%,100%{opacity:.35}50%{opacity:1}}
+.a-fade{animation:a-fadep 3.2s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+  <g id="hook"><path d="M3 36 H36 V6 H12 V24 H24" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="square"/></g>
+  <g id="mrow">
+    <use href="#hook"/><use href="#hook" x="42"/><use href="#hook" x="84"/><use href="#hook" x="126"/>
+    <use href="#hook" x="168"/><use href="#hook" x="210"/><use href="#hook" x="252"/><use href="#hook" x="294"/>
+    <use href="#hook" x="336"/><use href="#hook" x="378"/><use href="#hook" x="420"/><use href="#hook" x="462"/>
+    <use href="#hook" x="504"/><use href="#hook" x="546"/><use href="#hook" x="588"/><use href="#hook" x="630"/>
+    <use href="#hook" x="672"/><use href="#hook" x="714"/><use href="#hook" x="756"/><use href="#hook" x="798"/>
+  </g>
+  <g id="oliveleafpair">
+    <ellipse cx="-11" cy="0" rx="11" ry="3.6" fill="#8A9B55" transform="rotate(-24 -11 0)"/>
+    <ellipse cx="11" cy="0" rx="11" ry="3.6" fill="currentColor" transform="rotate(24 11 0)"/>
+  </g>
+  <g id="olivebranch">
+    <path d="M0 0 Q28 -14 62 -18 Q96 -20 122 -14" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/>
+    <use href="#oliveleafpair" transform="translate(22 -8) rotate(-14)"/>
+    <use href="#oliveleafpair" transform="translate(50 -16) rotate(-6) scale(1.06)"/>
+    <use href="#oliveleafpair" transform="translate(80 -19) rotate(2)"/>
+    <use href="#oliveleafpair" transform="translate(108 -16) rotate(10) scale(.92)"/>
+    <ellipse cx="38" cy="-6" rx="5.6" ry="7" fill="#3E3B2A"/>
+    <ellipse cx="66" cy="-10" rx="5.2" ry="6.6" fill="#3E3B2A"/>
+    <ellipse cx="95" cy="-9" rx="5" ry="6.2" fill="#5C5636"/>
+  </g>
+  <g id="bflower">
+    <path d="M0 -11 Q7 -4 4 4 L-4 4 Q-7 -4 0 -11 Z" fill="currentColor"/>
+    <path d="M0 -11 Q7 -4 4 4 L-4 4 Q-7 -4 0 -11 Z" fill="#E06A94" transform="rotate(120)"/>
+    <path d="M0 -11 Q7 -4 4 4 L-4 4 Q-7 -4 0 -11 Z" fill="currentColor" transform="rotate(240)"/>
+    <circle r="2.2" fill="#FBE9D7"/>
+  </g>
+  <g id="bougcluster">
+    <ellipse cx="4" cy="16" rx="10" ry="4" fill="#8A9B55" transform="rotate(30 4 16)"/>
+    <ellipse cx="-10" cy="12" rx="9" ry="3.6" fill="#6B7F3E" transform="rotate(-34 -10 12)"/>
+    <use href="#bflower" transform="translate(-10 -6) rotate(-15) scale(1.05)"/>
+    <use href="#bflower" transform="translate(8 -10) rotate(24)"/>
+    <use href="#bflower" transform="translate(2 6) rotate(70) scale(.9)"/>
+    <use href="#bflower" transform="translate(18 2) rotate(-40) scale(.78)"/>
+  </g>
+  <g id="waves">
+    <path d="M0 22 Q28 8 56 22 Q84 36 112 22 Q140 8 168 22 Q196 36 224 22 Q252 8 280 22 Q308 36 336 22 Q364 8 392 22 Q420 36 448 22 Q476 8 504 22 Q532 36 560 22 Q588 8 616 22 Q644 36 672 22 Q700 8 728 22 Q756 36 784 22 Q812 8 840 22"
+      fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+    <path d="M0 34 Q28 22 56 34 Q84 46 112 34 Q140 22 168 34 Q196 46 224 34 Q252 22 280 34 Q308 46 336 34 Q364 22 392 34 Q420 46 448 34 Q476 22 504 34 Q532 46 560 34 Q588 22 616 34 Q644 46 672 34 Q700 22 728 34 Q756 46 784 34 Q812 22 840 34"
+      fill="none" stroke="#5E93CB" stroke-width="3.4" stroke-linecap="round"/>
+  </g>
+</defs>
+</svg>
+
+<svg class="meander" viewBox="0 0 840 42" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#mrow"/></svg>
+
+<header>
+  <svg class="olive-side olive-l" viewBox="-4 -30 134 44" aria-hidden="true"><use href="#olivebranch"/></svg>
+  <svg class="olive-side olive-r" viewBox="-4 -30 134 44" aria-hidden="true"><use href="#olivebranch"/></svg>
+  <div class="font-tools" aria-label="Velikost písma">
+    <button type="button" id="fontMinus" aria-label="Zmenšit písmo">A−</button>
+    <button type="button" id="fontPlus" aria-label="Zvětšit písmo">A+</button>
+  </div>
+  <div class="head-inner">
+    <p class="kicker">☀ Kaliméra! Váš osobní průvodce cvičením ☀</p>
+    <h1>GRATULUJEME,<br>MILÁ OLGO!</h1>
+    <p class="subtitle">Odemkla jste své Tai Chi tréninky pro ženy 50+.</p>
+    <p class="lead">Jen <strong>7 minut denně</strong> pro úlevu od stresu, lepší rovnováhu
+    a posílení těla — bez cviků na podlaze a bez skákání.
+    Vše v klidu, vsedě na obyčejné židli.</p>
+    <div class="scene-box"><svg xmlns="http://www.w3.org/2000/svg" class="scene-svg" role="img" aria-label="Terasa u Egejského moře" viewBox="0 0 640 300">
+<defs>
+  <g id="hook">
+    <path d="M3 36 H36 V6 H12 V24 H24" fill="none" stroke="#0D5EAF" stroke-width="6" stroke-linecap="square"/>
+  </g>
+  <g id="oliveleafpair">
+    <ellipse cx="-11" cy="0" rx="11" ry="3.6" fill="#8A9B55" transform="rotate(-24 -11 0)"/>
+    <ellipse cx="11" cy="0" rx="11" ry="3.6" fill="#6B7F3E" transform="rotate(24 11 0)"/>
+  </g>
+  <g id="olivebranch">
+    <path d="M0 0 Q28 -14 62 -18 Q96 -20 122 -14" fill="none" stroke="#6B7F3E" stroke-width="3.4" stroke-linecap="round"/>
+    <use href="#oliveleafpair" transform="translate(22 -8) rotate(-14)"/>
+    <use href="#oliveleafpair" transform="translate(50 -16) rotate(-6) scale(1.06)"/>
+    <use href="#oliveleafpair" transform="translate(80 -19) rotate(2)"/>
+    <use href="#oliveleafpair" transform="translate(108 -16) rotate(10) scale(.92)"/>
+    <ellipse cx="38" cy="-6" rx="5.6" ry="7" fill="#3E3B2A"/>
+    <ellipse cx="66" cy="-10" rx="5.2" ry="6.6" fill="#3E3B2A"/>
+    <ellipse cx="95" cy="-9" rx="5" ry="6.2" fill="#5C5636"/>
+  </g>
+  <g id="bflower">
+    <path d="M0 -11 Q7 -4 4 4 L-4 4 Q-7 -4 0 -11 Z" fill="#C94F7C"/>
+    <path d="M0 -11 Q7 -4 4 4 L-4 4 Q-7 -4 0 -11 Z" fill="#E06A94" transform="rotate(120)"/>
+    <path d="M0 -11 Q7 -4 4 4 L-4 4 Q-7 -4 0 -11 Z" fill="#C94F7C" transform="rotate(240)"/>
+    <circle r="2.2" fill="#FBE9D7"/>
+  </g>
+  <g id="bougcluster">
+    <ellipse cx="4" cy="16" rx="10" ry="4" fill="#8A9B55" transform="rotate(30 4 16)"/>
+    <ellipse cx="-10" cy="12" rx="9" ry="3.6" fill="#6B7F3E" transform="rotate(-34 -10 12)"/>
+    <use href="#bflower" transform="translate(-10 -6) rotate(-15) scale(1.05)"/>
+    <use href="#bflower" transform="translate(8 -10) rotate(24)"/>
+    <use href="#bflower" transform="translate(2 6) rotate(70) scale(.9)"/>
+    <use href="#bflower" transform="translate(18 2) rotate(-40) scale(.78)"/>
+  </g>
+  <g id="sun">
+    <circle r="16" fill="#E9B44C"/>
+    <g stroke="#E9B44C" stroke-width="4" stroke-linecap="round">
+      <line x1="0" y1="-22" x2="0" y2="-30"/><line x1="0" y1="22" x2="0" y2="30"/>
+      <line x1="-22" y1="0" x2="-30" y2="0"/><line x1="22" y1="0" x2="30" y2="0"/>
+      <line x1="-16" y1="-16" x2="-21" y2="-21"/><line x1="16" y1="-16" x2="21" y2="-21"/>
+      <line x1="-16" y1="16" x2="-21" y2="21"/><line x1="16" y1="16" x2="21" y2="21"/>
+    </g>
+  </g>
+  <g id="amfora">
+    <path d="M-9 -22 H9 L6 -16 Q16 -6 10 10 Q6 20 0 22 Q-6 20 -10 10 Q-16 -6 -6 -16 Z" fill="#C96F4A"/>
+    <path d="M-8 -26 H8 V-22 H-8 Z" fill="#A85535"/>
+    <path d="M-6 26 H6 L4 22 H-4 Z" fill="#A85535"/>
+    <path d="M-10 -14 Q-20 -10 -12 0" fill="none" stroke="#A85535" stroke-width="3.4"/>
+    <path d="M10 -14 Q20 -10 12 0" fill="none" stroke="#A85535" stroke-width="3.4"/>
+    <path d="M-11 2 Q0 7 11 2" fill="none" stroke="#A85535" stroke-width="2.4"/>
+  </g>
+
+  <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#2E77C4"/><stop offset="1" stop-color="#0D5EAF"/>
+  </linearGradient>
+</defs>
+<rect width="640" height="300" fill="#EAF3FB"/>
+<use href="#sun" transform="translate(150 56) scale(1.1)"/>
+<rect x="0" y="150" width="640" height="90" fill="#1E67B5"/>
+<path d="M0 176 Q 24.0 171 48 176 Q 72.0 181 96 176 Q 120.0 171 144 176 Q 168.0 181 192 176 Q 216.0 171 240 176 Q 264.0 181 288 176 Q 312.0 171 336 176 Q 360.0 181 384 176 Q 408.0 171 432 176 Q 456.0 181 480 176 Q 504.0 171 528 176 Q 552.0 181 576 176 Q 600.0 171 624 176 Q 648.0 181 672 176 " fill="none" stroke="#7FB0DF" stroke-width="4" stroke-linecap="round"/>
+<path d="M0 206 Q 24.0 201 48 206 Q 72.0 211 96 206 Q 120.0 201 144 206 Q 168.0 211 192 206 Q 216.0 201 240 206 Q 264.0 211 288 206 Q 312.0 201 336 206 Q 360.0 211 384 206 Q 408.0 201 432 206 Q 456.0 211 480 206 Q 504.0 201 528 206 Q 552.0 211 576 206 Q 600.0 201 624 206 Q 648.0 211 672 206 " fill="none" stroke="#5E93CB" stroke-width="4" stroke-linecap="round"/>
+<!-- domky s modrými kupolemi -->
+<rect x="382" y="150" width="240" height="10" fill="#EFE9DA"/>
+<g transform="translate(392 150)">
+  <rect x="0" y="-64" width="70" height="64" fill="#FFFFFF"/>
+  <path d="M0 -64 Q35 -104 70 -64 Z" fill="#0D5EAF"/>
+  <rect x="26" y="-34" width="18" height="34" fill="#0D5EAF" rx="2"/>
+  <rect x="8" y="-52" width="12" height="14" rx="6" fill="#0D5EAF"/>
+  <rect x="50" y="-52" width="12" height="14" rx="6" fill="#0D5EAF"/>
+  <rect x="84" y="-46" width="52" height="46" fill="#FFFFFF"/>
+  <rect x="84" y="-52" width="52" height="8" fill="#F1EDE2"/>
+  <rect x="100" y="-30" width="14" height="30" fill="#C96F4A" rx="2"/>
+  <rect x="122" y="-34" width="10" height="12" rx="5" fill="#0D5EAF"/>
+  <rect x="150" y="-56" width="58" height="56" fill="#FFFFFF"/>
+  <path d="M150 -56 Q179 -88 208 -56 Z" fill="#0D5EAF"/>
+  <rect x="170" y="-30" width="16" height="30" fill="#0D5EAF" rx="2"/>
+</g>
+<!-- terasa -->
+<rect x="0" y="238" width="640" height="14" fill="#FFFFFF"/>
+<rect x="0" y="252" width="640" height="48" fill="#C96F4A"/>
+<rect x="0" y="252" width="640" height="6" fill="#A85535" opacity=".5"/>
+<!-- cvičící žena na židli -->
+<g transform="translate(238 178)">
+  <rect x="10" y="28" width="46" height="8" rx="4" fill="#7A4A2B"/>
+  <rect x="14" y="36" width="7" height="38" fill="#7A4A2B"/>
+  <rect x="46" y="36" width="7" height="38" fill="#7A4A2B"/>
+  <rect x="50" y="-6" width="7" height="36" rx="3" fill="#7A4A2B"/>
+  <path d="M14 30 Q10 6 22 -4 L40 -4 Q46 12 44 30 Z" fill="#0D5EAF"/>
+  <path d="M20 30 L2 36 Q-2 52 4 66 L14 66 Q10 48 20 40 Z" fill="#0D5EAF"/>
+  <rect x="2" y="64" width="16" height="8" rx="4" fill="#8A5A3B"/>
+  <path d="M26 2 Q4 -2 -14 -14" fill="none" stroke="#E8B48A" stroke-width="9" stroke-linecap="round"/>
+  <path d="M36 2 Q52 6 60 16" fill="none" stroke="#E8B48A" stroke-width="9" stroke-linecap="round"/>
+  <circle cx="31" cy="-16" r="12" fill="#E8B48A"/>
+  <path d="M19 -18 Q31 -34 43 -18 Q44 -26 31 -30 Q18 -26 19 -18 Z" fill="#D9D9D9"/>
+  <circle cx="43" cy="-24" r="5.5" fill="#C9C9C9"/>
+</g>
+<!-- amfora s bugenvilií -->
+<g transform="translate(560 236)">
+  <use href="#amfora" transform="scale(1.35)"/>
+  <use href="#bougcluster" transform="translate(-6 -42)"/>
+</g>
+<use href="#olivebranch" transform="translate(-6 16) rotate(30) scale(1.0)"/>
+</svg></div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section aria-labelledby="h-osa">
+    <h2 id="h-osa">Co můžete očekávat</h2>
+    <div class="osa">
+      <div class="stupen"><b>Už po 1–2 lekcích</b> — ucítíte rozdíl: klidnější rytmus,
+        uvolněná ramena a příjemný pocit v těle.</div>
+      <div class="stupen"><b>Za 2–4 týdny</b> (při cvičení 3× týdně) — volnější ramena,
+        menší ranní ztuhlost a lepší vnímání sedu i chodidel.</div>
+      <div class="stupen"><b>Za 6–8 týdnů</b> — lepší rovnováha, jistota v pohybu
+        a menší strach z pádu. Vaše tělo bude pevnější a silnější.</div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-benefity">
+    <h2 id="h-benefity">Co Vám pravidelné cvičení přinese</h2>
+    <ul class="benefity">
+      <li>Volnější pohyb v kloubech a menší ranní ztuhlost</li>
+      <li>Stabilnější záda a vzpřímenější držení těla</li>
+      <li>Lepší koordinaci a jistější pohyb — při vstávání, otáčení i chůzi</li>
+      <li>Klidnější dech a uvolněnější mysl</li>
+      <li>Stabilnější chodidla a kotníky — oporu pro každý Váš krok</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="h-pozice">
+    <h2 id="h-pozice">Než začnete: výchozí pozice</h2>
+    <div class="pozice">
+      <strong>Připravte si:</strong>
+      <ul>
+        <li>Pevnou židli bez koleček, pod židlí protiskluzový kobereček</li>
+        <li>Vzpřímený sed, chodidla celou plochou na zemi</li>
+        <li>Ruce volně položené na stehnech</li>
+        <li>Volné pohodlné oblečení</li>
+      </ul>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-cviky">
+    <h2 id="h-cviky">Vaše 7minutová sestava</h2>
+    <div class="panel">
+      <span class="progress">Dnes hotovo: <b id="doneCount">0</b> ze 7</span>
+      <span style="display:flex;gap:.7rem;flex-wrap:wrap">
+        <button type="button" class="btn btn-primary" id="btnGuided">▶ Spustit celý trénink (7 min)</button>
+        <button type="button" class="btn btn-ghost" id="btnReset">↺ Začít znovu</button>
+      </span>
+    </div>
+    <div class="hotovo-banner" id="banner">☀ Výborně, milá Olgo! Dnešních 7 minut máte za sebou. ☀</div>
+
+    <article class="cvik" data-sec="60">
+      <div class="cvik-head"><span class="badge">1</span><h3>Usazení a zklidnění dechu</h3><span class="cas-stitek">1 min</span></div>
+      <div class="cvik-body">
+        <div class="cvik-text">
+      <p class="postup">Seďte vzpřímeně, ruce na stehnech. Dýchejte plynule nosem, bez zadržování dechu. 5–8 klidných dechů.</p>
+      <p class="dech">🌬️ Dech: výdech vědomě prodlužte — delší výdech tělo přirozeně zklidňuje.</p>
+        </div>
+        <div class="cvik-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" role="img" aria-label="Cvik 1 – vzpřímený sed, ruce na stehnech, klidný dech">
+<circle cx="100" cy="110" r="96" fill="#EAF3FB"/>
+<rect x="30" y="204" width="140" height="8" rx="4" fill="#C96F4A" opacity=".45"/>
+<rect x="136" y="92" width="8" height="66" rx="3" fill="#7A4A2B"/>
+<rect x="68" y="150" width="78" height="9" rx="4" fill="#7A4A2B"/>
+<rect x="74" y="159" width="8" height="45" fill="#7A4A2B"/>
+<rect x="132" y="159" width="8" height="45" fill="#7A4A2B"/>
+<path d="M80 150 L48 150 Q42 152 42 161 L42 167 L80 164 Z" fill="#0D5EAF"/>
+<rect x="42" y="164" width="13" height="34" rx="3" fill="#0D5EAF"/>
+<ellipse cx="42" cy="201" rx="15" ry="6" fill="#8A5A3B"/>
+
+<rect x="80" y="66" width="13" height="26" rx="5" fill="#E8B48A"/>
+<path d="M78 152 Q74 110 88 86 L110 86 Q118 112 114 152 Z" fill="#0D5EAF"/>
+<circle cx="84" cy="64" r="15" fill="#E8B48A"/>
+<path d="M69 62 Q84 44 99 62 Q100 52 84 48 Q68 52 69 62 Z" fill="#D9D9D9"/>
+<circle cx="100" cy="56" r="6.5" fill="#C0C0C0"/>
+<circle cx="76" cy="62" r="1.8" fill="#5B4324"/>
+<path d="M96 98 Q96 124 66 152" fill="none" stroke="#E8B48A" stroke-width="10" stroke-linecap="round"/>
+<circle cx="65" cy="152" r="6" fill="#E8B48A" stroke="#D8A276" stroke-width="1.5"/>
+<g class="a-b1"><path d="M60 50 q-9 5 0 10" stroke="#5E93CB" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-dasharray="7 6"/></g>
+<g class="a-b2"><path d="M54 60 q-9 5 0 10" stroke="#5E93CB" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-dasharray="7 6"/></g>
+</svg></div>
+      </div>
+      <div class="timer-row">
+        <button type="button" class="btn btn-timer">▶ Spustit časovač</button>
+        <span class="countdown">1:00</span>
+        <button type="button" class="btn btn-check">✓ Hotovo</button>
+      </div>
+      <div class="yt-box">
+        <button type="button" class="yt-facade" data-vid="4Ato8Vv1eU0" aria-label="Přehrát video: PERMANENTO: Dýchání, část 1">
+          <span class="yt-badge">Videoukázka</span>
+          <span class="yt-play" aria-hidden="true"></span>
+        </button>
+        <p class="yt-src">🎬 PERMANENTO: Dýchání, část 1 · Pohybový koncept PERMANENTO (YouTube) · <a href="https://www.youtube.com/watch?v=4Ato8Vv1eU0" target="_blank" rel="noopener" style="color:var(--aegean);font-weight:600">otevřít na YouTube ↗</a></p>
+      </div>
+    </article>
+
+    <article class="cvik" data-sec="60">
+      <div class="cvik-head"><span class="badge">2</span><h3>Probuzení chodidel</h3><span class="cas-stitek">1 min</span></div>
+      <div class="cvik-body">
+        <div class="cvik-text">
+      <p class="postup">Vnímejte tři opěrné body chodidla: palec, malíček, pata. Jemně vtlačte obě chodidla do podlahy a povolte. Přidejte drobné pohyby prstů nohou. Opakujte 8–10×.</p>
+      <p class="dech">💡 Přínos: jistější došlap a stabilita při chůzi.</p>
+        </div>
+        <div class="cvik-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" role="img" aria-label="Cvik 2 – chodidlo na zemi, tři opěrné body: palec, malíček, pata">
+<circle cx="100" cy="110" r="96" fill="#EAF3FB"/>
+<rect x="30" y="204" width="140" height="8" rx="4" fill="#C96F4A" opacity=".45"/>
+<rect x="136" y="92" width="8" height="66" rx="3" fill="#7A4A2B"/>
+<rect x="68" y="150" width="78" height="9" rx="4" fill="#7A4A2B"/>
+<rect x="74" y="159" width="8" height="45" fill="#7A4A2B"/>
+<rect x="132" y="159" width="8" height="45" fill="#7A4A2B"/>
+<path d="M80 150 L48 150 Q42 152 42 161 L42 167 L80 164 Z" fill="#0D5EAF"/>
+<rect x="42" y="164" width="13" height="34" rx="3" fill="#0D5EAF"/>
+<ellipse cx="42" cy="201" rx="15" ry="6" fill="#8A5A3B"/>
+
+<rect x="80" y="66" width="13" height="26" rx="5" fill="#E8B48A"/>
+<path d="M78 152 Q74 110 88 86 L110 86 Q118 112 114 152 Z" fill="#0D5EAF"/>
+<circle cx="84" cy="64" r="15" fill="#E8B48A"/>
+<path d="M69 62 Q84 44 99 62 Q100 52 84 48 Q68 52 69 62 Z" fill="#D9D9D9"/>
+<circle cx="100" cy="56" r="6.5" fill="#C0C0C0"/>
+<circle cx="76" cy="62" r="1.8" fill="#5B4324"/>
+<path d="M96 98 Q96 124 66 152" fill="none" stroke="#E8B48A" stroke-width="10" stroke-linecap="round"/>
+<circle cx="65" cy="152" r="6" fill="#E8B48A" stroke="#D8A276" stroke-width="1.5"/>
+<circle class="a-d1" cx="29" cy="207" r="4" fill="#C96F4A" stroke="#FFFFFF" stroke-width="2"/>
+<circle class="a-d2" cx="42" cy="209" r="4" fill="#C96F4A" stroke="#FFFFFF" stroke-width="2"/>
+<circle class="a-d3" cx="55" cy="207" r="4" fill="#C96F4A" stroke="#FFFFFF" stroke-width="2"/>
+</svg></div>
+      </div>
+      <div class="timer-row">
+        <button type="button" class="btn btn-timer">▶ Spustit časovač</button>
+        <span class="countdown">1:00</span>
+        <button type="button" class="btn btn-check">✓ Hotovo</button>
+      </div>
+      <div class="yt-box">
+        <button type="button" class="yt-facade" data-vid="AzhuNOfAhUk" aria-label="Přehrát video: Ploska nohy – Cvičením proti bolesti (8. díl)">
+          <span class="yt-badge">Videoukázka</span>
+          <span class="yt-play" aria-hidden="true"></span>
+        </button>
+        <p class="yt-src">🎬 Ploska nohy – Cvičením proti bolesti (8. díl) · ŽIVOT 90 (YouTube) · <a href="https://www.youtube.com/watch?v=AzhuNOfAhUk" target="_blank" rel="noopener" style="color:var(--aegean);font-weight:600">otevřít na YouTube ↗</a></p>
+      </div>
+    </article>
+
+    <article class="cvik" data-sec="90">
+      <div class="cvik-head"><span class="badge">3</span><h3>Plynulé vlny paží</h3><span class="cas-stitek">1,5 min</span></div>
+      <div class="cvik-body">
+        <div class="cvik-text">
+      <p class="postup">S nádechem pomalu zvedejte paže před tělo — jen do výšky, která je Vám dnes příjemná (k břichu nebo hrudníku). S výdechem je nechte plynule klesat. Bez trhání. 8–10 opakování.</p>
+      <p class="dech">🌬️ Dech: nádech nahoru, výdech dolů. Ruce se nezvedají nad hlavu.</p>
+        </div>
+        <div class="cvik-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" role="img" aria-label="Cvik 3 – paže natažené vpřed, plynulý pohyb nahoru a dolů">
+<circle cx="100" cy="110" r="96" fill="#EAF3FB"/>
+<rect x="30" y="204" width="140" height="8" rx="4" fill="#C96F4A" opacity=".45"/>
+<rect x="136" y="92" width="8" height="66" rx="3" fill="#7A4A2B"/>
+<rect x="68" y="150" width="78" height="9" rx="4" fill="#7A4A2B"/>
+<rect x="74" y="159" width="8" height="45" fill="#7A4A2B"/>
+<rect x="132" y="159" width="8" height="45" fill="#7A4A2B"/>
+<path d="M80 150 L48 150 Q42 152 42 161 L42 167 L80 164 Z" fill="#0D5EAF"/>
+<rect x="42" y="164" width="13" height="34" rx="3" fill="#0D5EAF"/>
+<ellipse cx="42" cy="201" rx="15" ry="6" fill="#8A5A3B"/>
+
+<rect x="80" y="66" width="13" height="26" rx="5" fill="#E8B48A"/>
+<path d="M78 152 Q74 110 88 86 L110 86 Q118 112 114 152 Z" fill="#0D5EAF"/>
+<circle cx="84" cy="64" r="15" fill="#E8B48A"/>
+<path d="M69 62 Q84 44 99 62 Q100 52 84 48 Q68 52 69 62 Z" fill="#D9D9D9"/>
+<circle cx="100" cy="56" r="6.5" fill="#C0C0C0"/>
+<circle cx="76" cy="62" r="1.8" fill="#5B4324"/>
+<g class="a-arms"><path d="M100 94 Q82 90 52 88" fill="none" stroke="#D8A276" stroke-width="9" stroke-linecap="round"/><path d="M98 98 Q80 102 48 106" fill="none" stroke="#E8B48A" stroke-width="10" stroke-linecap="round"/></g>
+
+<g class="a-fade"><path d="M32 122 L32 90" stroke="#C96F4A" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-dasharray="7 6"/><polygon points="32,86 36,94 28,94" fill="#C96F4A"/><path d="M24 96 L24 128" stroke="#C96F4A" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-dasharray="7 6"/><polygon points="24,132 20,124 28,124" fill="#C96F4A"/></g>
+</svg></div>
+      </div>
+      <div class="timer-row">
+        <button type="button" class="btn btn-timer">▶ Spustit časovač</button>
+        <span class="countdown">1:30</span>
+        <button type="button" class="btn btn-check">✓ Hotovo</button>
+      </div>
+      <div class="yt-box">
+        <button type="button" class="yt-facade" data-vid="jswePyMtias" aria-label="Přehrát video: Tai chi v sedě na židli – hrudník a paže">
+          <span class="yt-badge">Videoukázka</span>
+          <span class="yt-play" aria-hidden="true"></span>
+        </button>
+        <p class="yt-src">🎬 Tai chi v sedě na židli – hrudník a paže · Tchaj ťi centrum Ostrava (Marcel Malec) (YouTube) · <a href="https://www.youtube.com/watch?v=jswePyMtias" target="_blank" rel="noopener" style="color:var(--aegean);font-weight:600">otevřít na YouTube ↗</a></p>
+      </div>
+    </article>
+
+    <article class="cvik" data-sec="90">
+      <div class="cvik-head"><span class="badge">4</span><h3>Jemné otáčení trupu</h3><span class="cas-stitek">1,5 min</span></div>
+      <div class="cvik-body">
+        <div class="cvik-text">
+      <p class="postup">Vzpřímený sed. S výdechem pomalu otočte trup mírně na jednu stranu, hlava následuje trup. Malý rozsah. S nádechem zpět do středu, pak druhá strana. 5× na každou stranu.</p>
+      <p class="pozor">⚠ Žádné prudké kroucení — pohyb veďte pomalu a plynule.</p>
+        </div>
+        <div class="cvik-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" role="img" aria-label="Cvik 4 – jemné otočení trupu do strany">
+<circle cx="100" cy="110" r="96" fill="#EAF3FB"/>
+<rect x="30" y="204" width="140" height="8" rx="4" fill="#C96F4A" opacity=".45"/>
+<rect x="58" y="74" width="84" height="10" rx="5" fill="#7A4A2B"/>
+<rect x="60" y="84" width="7" height="86" fill="#7A4A2B"/>
+<rect x="133" y="84" width="7" height="86" fill="#7A4A2B"/>
+<rect x="58" y="166" width="84" height="8" rx="4" fill="#7A4A2B"/>
+<rect x="66" y="174" width="8" height="30" fill="#7A4A2B"/>
+<rect x="126" y="174" width="8" height="30" fill="#7A4A2B"/>
+<g class="a-twist"><rect x="93" y="72" width="14" height="22" rx="5" fill="#E8B48A"/>
+<path d="M80 98 Q100 88 120 98 L134 172 L66 172 Z" fill="#0D5EAF"/>
+<path d="M83 106 Q78 138 84 164" fill="none" stroke="#E8B48A" stroke-width="10" stroke-linecap="round"/>
+
+<path d="M117 106 Q122 138 116 164" fill="none" stroke="#E8B48A" stroke-width="10" stroke-linecap="round"/>
+<circle cx="100" cy="68" r="16" fill="#E8B48A"/>
+<path d="M85 66 q-6 3 0 7" fill="#E8B48A" stroke="#E8B48A" stroke-width="4" stroke-linecap="round"/>
+<path d="M86 62 Q100 46 114 60 Q116 50 100 48 Q86 52 86 62 Z" fill="#D9D9D9"/>
+<circle cx="112" cy="52" r="7" fill="#C0C0C0"/>
+<circle cx="91" cy="66" r="1.8" fill="#5B4324"/></g>
+<rect x="80" y="172" width="13" height="26" rx="3" fill="#0D5EAF"/>
+<rect x="107" y="172" width="13" height="26" rx="3" fill="#0D5EAF"/>
+<ellipse cx="86" cy="201" rx="11" ry="5.5" fill="#8A5A3B"/>
+<ellipse cx="114" cy="201" rx="11" ry="5.5" fill="#8A5A3B"/><g class="a-fade"><path d="M58 122 Q100 100 142 122" stroke="#C96F4A" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-dasharray="7 6"/><polygon points="144,124 135,122 140,116" fill="#C96F4A"/></g>
+</svg></div>
+      </div>
+      <div class="timer-row">
+        <button type="button" class="btn btn-timer">▶ Spustit časovač</button>
+        <span class="countdown">1:30</span>
+        <button type="button" class="btn btn-check">✓ Hotovo</button>
+      </div>
+      <div class="yt-box">
+        <button type="button" class="yt-facade" data-vid="lOgh9OEoK4A" aria-label="Přehrát video: Cvik na klouby i záda v sedě – navíjení hedvábí">
+          <span class="yt-badge">Videoukázka</span>
+          <span class="yt-play" aria-hidden="true"></span>
+        </button>
+        <p class="yt-src">🎬 Cvik na klouby i záda v sedě – navíjení hedvábí · Tchaj ťi centrum Ostrava (Marcel Malec) (YouTube) · <a href="https://www.youtube.com/watch?v=lOgh9OEoK4A" target="_blank" rel="noopener" style="color:var(--aegean);font-weight:600">otevřít na YouTube ↗</a></p>
+      </div>
+    </article>
+
+    <article class="cvik" data-sec="60">
+      <div class="cvik-head"><span class="badge">5</span><h3>Přenos váhy na sedacích kostech</h3><span class="cas-stitek">1 min</span></div>
+      <div class="cvik-body">
+        <div class="cvik-text">
+      <p class="postup">Vnímejte sedací kosti na židli. Jemně přeneste váhu doprava, zpět do středu, doleva. Trup zůstává vzpřímený. 5× na každou stranu.</p>
+      <p class="dech">💡 Přínos: trénink rovnováhy a vnímání vlastního těla.</p>
+        </div>
+        <div class="cvik-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" role="img" aria-label="Cvik 5 – přenos váhy ze strany na stranu">
+<circle cx="100" cy="110" r="96" fill="#EAF3FB"/>
+<rect x="30" y="204" width="140" height="8" rx="4" fill="#C96F4A" opacity=".45"/>
+<rect x="58" y="74" width="84" height="10" rx="5" fill="#7A4A2B"/>
+<rect x="60" y="84" width="7" height="86" fill="#7A4A2B"/>
+<rect x="133" y="84" width="7" height="86" fill="#7A4A2B"/>
+<rect x="58" y="166" width="84" height="8" rx="4" fill="#7A4A2B"/>
+<rect x="66" y="174" width="8" height="30" fill="#7A4A2B"/>
+<rect x="126" y="174" width="8" height="30" fill="#7A4A2B"/>
+<g class="a-lean" transform="rotate(-7 100 172)"><rect x="93" y="72" width="14" height="22" rx="5" fill="#E8B48A"/>
+<path d="M80 98 Q100 88 120 98 L134 172 L66 172 Z" fill="#0D5EAF"/>
+<path d="M83 106 Q78 138 84 164" fill="none" stroke="#E8B48A" stroke-width="10" stroke-linecap="round"/>
+
+<path d="M117 106 Q122 138 116 164" fill="none" stroke="#E8B48A" stroke-width="10" stroke-linecap="round"/>
+<circle cx="100" cy="68" r="16" fill="#E8B48A"/>
+<path d="M84 64 Q100 46 116 64 Q116 52 100 48 Q84 52 84 64 Z" fill="#D9D9D9"/>
+<circle cx="100" cy="46" r="7" fill="#C0C0C0"/>
+<circle cx="94" cy="67" r="1.8" fill="#5B4324"/><circle cx="106" cy="67" r="1.8" fill="#5B4324"/></g>
+<rect x="80" y="172" width="13" height="26" rx="3" fill="#0D5EAF"/>
+<rect x="107" y="172" width="13" height="26" rx="3" fill="#0D5EAF"/>
+<ellipse cx="86" cy="201" rx="11" ry="5.5" fill="#8A5A3B"/>
+<ellipse cx="114" cy="201" rx="11" ry="5.5" fill="#8A5A3B"/><g class="a-fade"><path d="M62 160 L44 160" stroke="#C96F4A" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-dasharray="7 6"/><polygon points="41,160 49,156 49,164" fill="#C96F4A"/><path d="M138 160 L156 160" stroke="#C96F4A" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-dasharray="7 6"/><polygon points="159,160 151,164 151,156" fill="#C96F4A"/></g>
+</svg></div>
+      </div>
+      <div class="timer-row">
+        <button type="button" class="btn btn-timer">▶ Spustit časovač</button>
+        <span class="countdown">1:00</span>
+        <button type="button" class="btn btn-check">✓ Hotovo</button>
+      </div>
+      <div class="yt-box">
+        <button type="button" class="yt-facade" data-vid="pe00x8ORs5U" aria-label="Přehrát video: Rovnováha pro seniory – noha vpřed, do strany, vzad (u židle)">
+          <span class="yt-badge">Videoukázka</span>
+          <span class="yt-play" aria-hidden="true"></span>
+        </button>
+        <p class="yt-src">🎬 Rovnováha pro seniory – noha vpřed, do strany, vzad (u židle) · Tchaj ťi centrum Ostrava (Marcel Malec) (YouTube) · <a href="https://www.youtube.com/watch?v=pe00x8ORs5U" target="_blank" rel="noopener" style="color:var(--aegean);font-weight:600">otevřít na YouTube ↗</a></p>
+      </div>
+    </article>
+
+    <article class="cvik" data-sec="60">
+      <div class="cvik-head"><span class="badge">6</span><h3>Uvolnění krku</h3><span class="cas-stitek">1 min</span></div>
+      <div class="cvik-body">
+        <div class="cvik-text">
+      <p class="postup">Velmi pomalu otočte hlavu mírně doprava, zpět do středu, pak doleva. Jen nepatrný rozsah.</p>
+      <p class="pozor">⚠ Nikdy nekružte celou hlavou a nezaklánějte ji. Při závrati ihned zastavte a zůstaňte klidně sedět.</p>
+        </div>
+        <div class="cvik-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" role="img" aria-label="Cvik 6 – pomalé otočení hlavy do strany">
+<circle cx="100" cy="110" r="96" fill="#EAF3FB"/>
+<rect x="30" y="204" width="140" height="8" rx="4" fill="#C96F4A" opacity=".45"/>
+<rect x="58" y="74" width="84" height="10" rx="5" fill="#7A4A2B"/>
+<rect x="60" y="84" width="7" height="86" fill="#7A4A2B"/>
+<rect x="133" y="84" width="7" height="86" fill="#7A4A2B"/>
+<rect x="58" y="166" width="84" height="8" rx="4" fill="#7A4A2B"/>
+<rect x="66" y="174" width="8" height="30" fill="#7A4A2B"/>
+<rect x="126" y="174" width="8" height="30" fill="#7A4A2B"/>
+<rect x="93" y="72" width="14" height="22" rx="5" fill="#E8B48A"/>
+<path d="M80 98 Q100 88 120 98 L134 172 L66 172 Z" fill="#0D5EAF"/>
+<path d="M83 106 Q78 138 84 164" fill="none" stroke="#E8B48A" stroke-width="10" stroke-linecap="round"/>
+
+<path d="M117 106 Q122 138 116 164" fill="none" stroke="#E8B48A" stroke-width="10" stroke-linecap="round"/>
+<g class="a-head"><circle cx="100" cy="68" r="16" fill="#E8B48A"/>
+<path d="M85 66 q-6 3 0 7" fill="#E8B48A" stroke="#E8B48A" stroke-width="4" stroke-linecap="round"/>
+<path d="M86 62 Q100 46 114 60 Q116 50 100 48 Q86 52 86 62 Z" fill="#D9D9D9"/>
+<circle cx="112" cy="52" r="7" fill="#C0C0C0"/>
+<circle cx="91" cy="66" r="1.8" fill="#5B4324"/></g>
+<rect x="80" y="172" width="13" height="26" rx="3" fill="#0D5EAF"/>
+<rect x="107" y="172" width="13" height="26" rx="3" fill="#0D5EAF"/>
+<ellipse cx="86" cy="201" rx="11" ry="5.5" fill="#8A5A3B"/>
+<ellipse cx="114" cy="201" rx="11" ry="5.5" fill="#8A5A3B"/><g class="a-fade"><path d="M80 40 Q100 28 120 40" stroke="#C96F4A" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-dasharray="7 6"/><polygon points="78,42 87,44 83,50" fill="#C96F4A"/><polygon points="122,42 117,50 113,44" fill="#C96F4A"/></g>
+</svg></div>
+      </div>
+      <div class="timer-row">
+        <button type="button" class="btn btn-timer">▶ Spustit časovač</button>
+        <span class="countdown">1:00</span>
+        <button type="button" class="btn btn-check">✓ Hotovo</button>
+      </div>
+      <div class="yt-box">
+        <button type="button" class="yt-facade" data-vid="MKrTYH0gv1A" aria-label="Přehrát video: Krční páteř – Cvičením proti bolesti (2. díl)">
+          <span class="yt-badge">Videoukázka</span>
+          <span class="yt-play" aria-hidden="true"></span>
+        </button>
+        <p class="yt-src">🎬 Krční páteř – Cvičením proti bolesti (2. díl) · ŽIVOT 90 (YouTube) · <a href="https://www.youtube.com/watch?v=MKrTYH0gv1A" target="_blank" rel="noopener" style="color:var(--aegean);font-weight:600">otevřít na YouTube ↗</a></p>
+      </div>
+    </article>
+
+    <article class="cvik" data-sec="60">
+      <div class="cvik-head"><span class="badge">7</span><h3>Závěrečné zklidnění</h3><span class="cas-stitek">1 min</span></div>
+      <div class="cvik-body">
+        <div class="cvik-text">
+      <p class="postup">Ruce volně položte na břicho nebo stehna. Dýchejte klidně, výdech delší než nádech. Vnímejte oporu chodidel a sedu. 5 klidných dechů.</p>
+      <p class="dech">🌬️ Dech: nechte tělo dojít do klidu — jako hladina Egejského moře za bezvětří.</p>
+        </div>
+        <div class="cvik-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" role="img" aria-label="Cvik 7 – ruce na břiše, klidný dech, zavřené oči">
+<circle cx="100" cy="110" r="96" fill="#EAF3FB"/>
+<rect x="30" y="204" width="140" height="8" rx="4" fill="#C96F4A" opacity=".45"/>
+<rect x="136" y="92" width="8" height="66" rx="3" fill="#7A4A2B"/>
+<rect x="68" y="150" width="78" height="9" rx="4" fill="#7A4A2B"/>
+<rect x="74" y="159" width="8" height="45" fill="#7A4A2B"/>
+<rect x="132" y="159" width="8" height="45" fill="#7A4A2B"/>
+<path d="M80 150 L48 150 Q42 152 42 161 L42 167 L80 164 Z" fill="#0D5EAF"/>
+<rect x="42" y="164" width="13" height="34" rx="3" fill="#0D5EAF"/>
+<ellipse cx="42" cy="201" rx="15" ry="6" fill="#8A5A3B"/>
+
+<rect x="80" y="66" width="13" height="26" rx="5" fill="#E8B48A"/>
+<path d="M78 152 Q74 110 88 86 L110 86 Q118 112 114 152 Z" fill="#0D5EAF"/>
+<circle cx="84" cy="64" r="15" fill="#E8B48A"/>
+<path d="M69 62 Q84 44 99 62 Q100 52 84 48 Q68 52 69 62 Z" fill="#D9D9D9"/>
+<circle cx="100" cy="56" r="6.5" fill="#C0C0C0"/>
+<path d="M73 62 h6" stroke="#5B4324" stroke-width="2" stroke-linecap="round" fill="none"/>
+<path d="M98 98 Q102 118 90 128" fill="none" stroke="#E8B48A" stroke-width="10" stroke-linecap="round"/>
+<circle cx="89" cy="128" r="6" fill="#E8B48A" stroke="#D8A276" stroke-width="1.5"/>
+<g class="a-b1"><path d="M58 52 q-8 5 0 10" stroke="#5E93CB" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-dasharray="7 6"/></g>
+</svg></div>
+      </div>
+      <div class="timer-row">
+        <button type="button" class="btn btn-timer">▶ Spustit časovač</button>
+        <span class="countdown">1:00</span>
+        <button type="button" class="btn btn-check">✓ Hotovo</button>
+      </div>
+      <div class="yt-box">
+        <button type="button" class="yt-facade" data-vid="GdrsJQ8IEgM" aria-label="Přehrát video: Tai chi proti stresu – 1 minuta pro zklidnění">
+          <span class="yt-badge">Videoukázka</span>
+          <span class="yt-play" aria-hidden="true"></span>
+        </button>
+        <p class="yt-src">🎬 Tai chi proti stresu – 1 minuta pro zklidnění · Tchaj ťi centrum Ostrava (Marcel Malec) (YouTube) · <a href="https://www.youtube.com/watch?v=GdrsJQ8IEgM" target="_blank" rel="noopener" style="color:var(--aegean);font-weight:600">otevřít na YouTube ↗</a></p>
+      </div>
+    </article>
+  </section>
+
+  <section aria-labelledby="h-video">
+    <h2 id="h-video">Videoukázky</h2>
+    <p>U každého cviku najdete dvě ukázky: <strong>animovanou postavu</strong>, která
+    předvádí pohyb, a <strong>video z YouTube</strong> s živým instruktorem — stačí
+    klepnout na obrázek s tlačítkem ▶ a video se spustí přímo v průvodci
+    (potřebuje internet). Videa pocházejí z kanálů Tchaj ťi centra Ostrava
+    (Marcel Malec), organizace ŽIVOT 90 a konceptu PERMANENTO.</p>
+    <p style="margin-top:.6rem">Videa jsou doplňkovou inspirací od různých lektorů —
+    nemusí přesně kopírovat postup cviku v tomto průvodci. Řiďte se popisem cviku
+    a cvičte jen v rozsahu, který je Vám příjemný.</p>
+  </section>
+
+  <section aria-labelledby="h-plan">
+    <h2 id="h-plan">Váš 7minutový denní plán</h2>
+    <table>
+      <thead><tr><th scope="col">Pořadí</th><th scope="col">Cvik</th><th scope="col">Čas</th></tr></thead>
+      <tbody>
+        <tr><td class="cislo">1</td><td>Usazení a zklidnění dechu</td><td class="cas">1 min</td></tr>
+        <tr><td class="cislo">2</td><td>Probuzení chodidel</td><td class="cas">1 min</td></tr>
+        <tr><td class="cislo">3</td><td>Plynulé vlny paží</td><td class="cas">1,5 min</td></tr>
+        <tr><td class="cislo">4</td><td>Jemné otáčení trupu</td><td class="cas">1,5 min</td></tr>
+        <tr><td class="cislo">5</td><td>Přenos váhy na sedacích kostech</td><td class="cas">1 min</td></tr>
+        <tr><td class="cislo">6</td><td>Uvolnění krku</td><td class="cas">1 min</td></tr>
+        <tr><td class="cislo">7</td><td>Závěrečné zklidnění</td><td class="cas">1 min</td></tr>
+        <tr><td class="cislo"></td><td>Celkem</td><td class="cas">7 min</td></tr>
+      </tbody>
+    </table>
+    <p class="plan-tip">🗓️ <strong>Doporučení:</strong> cvičte 3–5× týdně. Krátce a pravidelně
+    je pro tělo lepší než dlouho a nárazově.</p>
+  </section>
+
+  <section aria-labelledby="h-bezpeci">
+    <h2 id="h-bezpeci">Bezpečnostní zásady</h2>
+    <ul class="zasady">
+      <li>Cvičte jen v rozsahu, který je Vám příjemný. Nepříjemný pohyb zmenšete nebo vynechejte.</li>
+      <li>Žádné hluboké předklony, prudké kroucení trupu, kroužení hlavou ani záklon hlavy.</li>
+      <li>Při závrati okamžitě přestaňte, zůstaňte sedět a vyčkejte, až odezní.</li>
+      <li>Při osteoporóze: držte vzpřímený sed a vyhněte se hlubokým předklonům.</li>
+      <li>Při chronickém onemocnění nebo po operaci se nejdřív poraďte se svým lékařem.</li>
+    </ul>
+    <p class="disclaimer">Tento průvodce má informativní charakter a nenahrazuje lékařskou péči ani fyzioterapii.</p>
+  </section>
+
+  <section aria-labelledby="h-zaver">
+    <h2 id="h-zaver" style="border:none">Na závěr</h2>
+    <div class="zaver">
+      <svg class="boug boug-l" viewBox="-24 -24 48 48" aria-hidden="true"><use href="#bougcluster"/></svg>
+      <svg class="boug boug-r" viewBox="-24 -24 48 48" aria-hidden="true"><use href="#bougcluster"/></svg>
+      <p>Milá Olgo, každá minuta na židli se počítá. Cvičte ve svém tempu,
+      s laskavostí k sobě — a užijte si klid, který Vám těchto sedm minut každý den přinese.</p>
+      <p class="podpis">Držíme Vám palce! ☀</p>
+    </div>
+    <div class="print-row">
+      <button type="button" class="btn btn-ghost" onclick="window.print()">🖨️ Vytisknout průvodce</button>
+    </div>
+  </section>
+
+</main>
+
+<svg class="waves-bottom" viewBox="0 0 840 48" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><use href="#waves"/></svg>
+
+<script>
+(function(){
+  "use strict";
+  var cards = Array.prototype.slice.call(document.querySelectorAll(".cvik"));
+  var doneCount = document.getElementById("doneCount");
+  var banner = document.getElementById("banner");
+  var btnGuided = document.getElementById("btnGuided");
+  var btnReset = document.getElementById("btnReset");
+  var timer = null, activeCard = null, remaining = 0, guided = false, guidedIdx = 0;
+  var audioCtx = null;
+
+  function getCtx(){
+    audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)();
+    if(audioCtx.state==="suspended"){ audioCtx.resume(); }
+    return audioCtx;
+  }
+
+
+  function fmt(s){var m=Math.floor(s/60),ss=s%60;return m+":"+(ss<10?"0":"")+ss;}
+
+  function beep(long){
+    try{
+      var _c = getCtx();
+      var t = _c.currentTime;
+      [0,0.35].slice(0, long?2:1).forEach(function(off,i){
+        var o=_c.createOscillator(), g=_c.createGain();
+        o.type="sine"; o.frequency.value = i? 660: 523;
+        g.gain.setValueAtTime(0.0001,t+off);
+        g.gain.exponentialRampToValueAtTime(0.22,t+off+0.03);
+        g.gain.exponentialRampToValueAtTime(0.0001,t+off+0.3);
+        o.connect(g); g.connect(_c.destination);
+        o.start(t+off); o.stop(t+off+0.32);
+      });
+    }catch(e){}
+  }
+
+  function updateProgress(){
+    var n = cards.filter(function(c){return c.classList.contains("done");}).length;
+    doneCount.textContent = n;
+    banner.classList.toggle("show", n===7);
+    if(n===7){ banner.scrollIntoView({behavior:"smooth",block:"center"}); }
+  }
+
+  function stopTimer(){
+    if(timer){clearInterval(timer);timer=null;}
+    if(activeCard){
+      activeCard.classList.remove("active");
+      var b=activeCard.querySelector(".btn-timer");
+      b.dataset.state=""; b.textContent="▶ Spustit časovač";
+      activeCard.querySelector(".countdown").textContent = fmt(+activeCard.dataset.sec);
+      activeCard=null;
+    }
+  }
+
+  function finishCard(card){
+    card.classList.add("done");
+    card.querySelector(".countdown").textContent="0:00";
+    beep(true);
+    updateProgress();
+  }
+
+  function startCard(card){
+    stopTimer();
+    activeCard = card;
+    remaining = +card.dataset.sec;
+    card.classList.add("active");
+    card.scrollIntoView({behavior:"smooth",block:"center"});
+    var btn = card.querySelector(".btn-timer"),
+        cd  = card.querySelector(".countdown");
+    btn.dataset.state="running"; btn.textContent="⏸ Pauza";
+    cd.textContent = fmt(remaining);
+    timer = setInterval(function(){
+      remaining--;
+      cd.textContent = fmt(Math.max(remaining,0));
+      if(remaining<=0){
+        clearInterval(timer); timer=null;
+        card.classList.remove("active");
+        btn.dataset.state=""; btn.textContent="▶ Spustit časovač";
+        finishCard(card);
+        activeCard=null;
+        if(guided){
+          guidedIdx++;
+          if(guidedIdx<cards.length){ setTimeout(function(){ startCard(cards[guidedIdx]); },900); }
+          else { guided=false; btnGuided.textContent="▶ Spustit celý trénink (7 min)"; }
+        }
+      }
+    },1000);
+  }
+
+  cards.forEach(function(card){
+    var btn = card.querySelector(".btn-timer");
+    btn.addEventListener("click",function(){
+      if(activeCard===card && timer){
+        clearInterval(timer); timer=null;
+        btn.dataset.state=""; btn.textContent="▶ Pokračovat";
+      } else if(activeCard===card && !timer){
+        btn.dataset.state="running"; btn.textContent="⏸ Pauza";
+        timer=setInterval(function(){
+          remaining--;
+          card.querySelector(".countdown").textContent=fmt(Math.max(remaining,0));
+          if(remaining<=0){
+            clearInterval(timer);timer=null;
+            card.classList.remove("active");
+            btn.dataset.state="";btn.textContent="▶ Spustit časovač";
+            finishCard(card);activeCard=null;
+                if(guided){
+              guidedIdx++;
+              if(guidedIdx<cards.length){setTimeout(function(){startCard(cards[guidedIdx]);},900);}
+              else{guided=false;btnGuided.textContent="▶ Spustit celý trénink (7 min)";}
+            }
+          }
+        },1000);
+      } else {
+        guided=false; btnGuided.textContent="▶ Spustit celý trénink (7 min)";
+        startCard(card); beep(false);
+      }
+    });
+    card.querySelector(".btn-check").addEventListener("click",function(){
+      card.classList.toggle("done");
+      updateProgress();
+    });
+  });
+
+  btnGuided.addEventListener("click",function(){
+    if(guided){ guided=false; stopTimer(); btnGuided.textContent="▶ Spustit celý trénink (7 min)"; return; }
+    cards.forEach(function(c){c.classList.remove("done");});
+    updateProgress();
+    guided=true; guidedIdx=0;
+    btnGuided.textContent="⏹ Ukončit trénink";
+    beep(false);
+    startCard(cards[0]);
+  });
+
+  btnReset.addEventListener("click",function(){
+    guided=false; btnGuided.textContent="▶ Spustit celý trénink (7 min)";
+    stopTimer();
+    cards.forEach(function(c){
+      c.classList.remove("done");
+      c.querySelector(".countdown").textContent=fmt(+c.dataset.sec);
+    });
+    updateProgress();
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
+
+
+
+  document.querySelectorAll(".yt-facade").forEach(function(btn){
+    btn.addEventListener("click",function(){
+      var vid=btn.dataset.vid;
+      var f=document.createElement("iframe");
+      f.src="https://www.youtube-nocookie.com/embed/"+vid+"?autoplay=1&hl=cs&rel=0";
+      f.title="Videoukázka cviku";
+      f.allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+      f.allowFullscreen=true;
+      f.referrerPolicy="strict-origin-when-cross-origin";
+      btn.replaceWith(f);
+    });
+  });
+
+  var sizes=[19,21.5,24], si=0, root=document.documentElement;
+  document.getElementById("fontPlus").addEventListener("click",function(){
+    si=Math.min(si+1,sizes.length-1); root.style.setProperty("--fs",sizes[si]+"px");
+  });
+  document.getElementById("fontMinus").addEventListener("click",function(){
+    si=Math.max(si-1,0); root.style.setProperty("--fs",sizes[si]+"px");
+  });
+})();
+</script>
+</body>
+</html>
